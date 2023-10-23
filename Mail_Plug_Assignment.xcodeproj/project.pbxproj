@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		374A6B492AE6B94300623BA4 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374A6B482AE6B94300623BA4 /* BoardTableViewCell.swift */; };
+		374A6B4B2AE6BC0700623BA4 /* PostBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374A6B4A2AE6BC0700623BA4 /* PostBadgeView.swift */; };
+		374A6B4D2AE6C22800623BA4 /* NewBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374A6B4C2AE6C22800623BA4 /* NewBadgeView.swift */; };
+		374A6B4F2AE6C48100623BA4 /* InfoHStackViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374A6B4E2AE6C48100623BA4 /* InfoHStackViewItem.swift */; };
 		6EEB39FD2AE6643E00331AB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEB39FC2AE6643E00331AB8 /* Post.swift */; };
 		6EFA84EA2AE6368700180F83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA84E92AE6368700180F83 /* AppDelegate.swift */; };
 		6EFA84EC2AE6368700180F83 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA84EB2AE6368700180F83 /* SceneDelegate.swift */; };
@@ -29,6 +33,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		374A6B482AE6B94300623BA4 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
+		374A6B4A2AE6BC0700623BA4 /* PostBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBadgeView.swift; sourceTree = "<group>"; };
+		374A6B4C2AE6C22800623BA4 /* NewBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBadgeView.swift; sourceTree = "<group>"; };
+		374A6B4E2AE6C48100623BA4 /* InfoHStackViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHStackViewItem.swift; sourceTree = "<group>"; };
 		6EEB39FC2AE6643E00331AB8 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		6EFA84E62AE6368700180F83 /* Mail_Plug_Assignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mail_Plug_Assignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EFA84E92AE6368700180F83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,9 +90,9 @@
 		6EFA84E82AE6368700180F83 /* Mail_Plug_Assignment */ = {
 			isa = PBXGroup;
 			children = (
+				6EFA85002AE636D000180F83 /* App */,
 				6EFA85142AE6496D00180F83 /* Api */,
 				6EFA85032AE639B700180F83 /* Util */,
-				6EFA85002AE636D000180F83 /* App */,
 				6EFA84FF2AE636C100180F83 /* Model */,
 				6EFA84FE2AE636BD00180F83 /* ViewModel */,
 				6EFA85062AE63B1300180F83 /* View */,
@@ -151,6 +159,10 @@
 			isa = PBXGroup;
 			children = (
 				6EFA85072AE63B3400180F83 /* CustomNavView.swift */,
+				374A6B482AE6B94300623BA4 /* BoardTableViewCell.swift */,
+				374A6B4A2AE6BC0700623BA4 /* PostBadgeView.swift */,
+				374A6B4C2AE6C22800623BA4 /* NewBadgeView.swift */,
+				374A6B4E2AE6C48100623BA4 /* InfoHStackViewItem.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -270,8 +282,11 @@
 			files = (
 				6EFA84EA2AE6368700180F83 /* AppDelegate.swift in Sources */,
 				6EFA85162AE6499A00180F83 /* ApiService.swift in Sources */,
+				374A6B492AE6B94300623BA4 /* BoardTableViewCell.swift in Sources */,
 				6EFA85182AE649EF00180F83 /* Board.swift in Sources */,
 				6EFA851E2AE64F4600180F83 /* Api.swift in Sources */,
+				374A6B4F2AE6C48100623BA4 /* InfoHStackViewItem.swift in Sources */,
+				374A6B4D2AE6C22800623BA4 /* NewBadgeView.swift in Sources */,
 				6EEB39FD2AE6643E00331AB8 /* Post.swift in Sources */,
 				6EFA85222AE6531800180F83 /* URLSessionManager.swift in Sources */,
 				6EFA85082AE63B3400180F83 /* CustomNavView.swift in Sources */,
@@ -281,6 +296,7 @@
 				6EFA85202AE652E000180F83 /* URLRequest+Ext.swift in Sources */,
 				6EFA85242AE655A700180F83 /* HomeViewModel.swift in Sources */,
 				6EFA851B2AE64D2100180F83 /* ApiRouter.swift in Sources */,
+				374A6B4B2AE6BC0700623BA4 /* PostBadgeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
