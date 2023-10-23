@@ -9,7 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     //MARK: - properties ==================
-    private let viewModel: BoardListViewModel?
+    private let viewModel: HomeViewModel?
     private let customNav = CustomNavView()
     
     private lazy var boardTableView: UITableView = {
@@ -21,7 +21,7 @@ class HomeViewController: UIViewController {
     }()
 
     //MARK: - lifecycle ==================
-    init(viewModel: BoardListViewModel) {
+    init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -35,7 +35,7 @@ class HomeViewController: UIViewController {
 
         setView()
         
-        viewModel?.boardListDidSet = { [weak self] response in
+        viewModel?.boardsDidSet = { [weak self] response in
             guard let firstTitle = response?.value[0].displayName else { return }
             DispatchQueue.main.async {
                 self?.customNav.setTitle(title: firstTitle)

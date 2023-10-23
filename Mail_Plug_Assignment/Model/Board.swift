@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BoardListResponse: Codable {
+struct Boards: Codable {
     let value: [Board]
     let count: Int
     let offset: Int

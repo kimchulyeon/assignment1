@@ -15,35 +15,67 @@ class ApiService {
     let session = URLSessionManager.shared.session
 
     /// 게시판 리스트 가져오기
-    func getBoardList(completion: @escaping ((BoardListResponse?) -> Void)) {
+    func getBoards(completion: @escaping ((Boards?) -> Void)) {
         let urlRequest = URLRequest(router: ApiRouter.board)
         session?.dataTask(with: urlRequest, completionHandler: { [weak self] data, response, error in
             guard let weakSelf = self else { return }
-            
+
             if let error = error {
                 print("❌ Error while getting board list with \(error)")
                 return completion(nil)
             }
 
             guard let response = response as? HTTPURLResponse,
-                  (200..<300).contains(response.statusCode) else {
+                (200..<300).contains(response.statusCode) else {
                 print("❌ Error while getting board list with invalid response")
                 return completion(nil)
             }
-            
+
             guard let data = data else {
                 print("❌ Error while getting board list with invalid data")
                 return completion(nil)
             }
-            
+
             do {
-                let boardData = try weakSelf.decoder.decode(BoardListResponse.self, from: data)
-                completion(boardData)
+                let boardsData = try weakSelf.decoder.decode(Boards.self, from: data)
+                completion(boardsData)
             } catch {
                 print("❌Error while getting board list with \(error.localizedDescription)")
                 completion(nil)
             }
         })
-        .resume()
+            .resume()
+    }
+
+    /// 게시판 게시글 가져오기
+    func getPosts(boardID: Int, offset: Int = 0, limit: Int = 30, completion: @escaping ((Posts?) -> Void)) {
+        let urlRequest = URLRequest(router: ApiRouter.post(boardID: boardID, offset: offset, limit: limit))
+        session?.dataTask(with: urlRequest, completionHandler: { [weak self] data, response, error in
+            guard let weakSelf = self else { return }
+
+            if let error = error {
+                print("❌ Error while getting posts with \(error)")
+                return completion(nil)
+            }
+
+            guard let response = response as? HTTPURLResponse,
+                (200..<300).contains(response.statusCode) else {
+                print("❌ Error while getting posts with invalid response")
+                return completion(nil)
+            }
+
+            guard let data = data else {
+                print("❌ Error while getting posts with invalid data")
+                return completion(nil)
+            }
+
+            do {
+                let postsData = try weakSelf.decoder.decode(Posts.self, from: data)
+                completion(postsData)
+            } catch {
+                print("❌Error while getting posts with \(error.localizedDescription)")
+                completion(nil)
+            }
+        })
     }
 }

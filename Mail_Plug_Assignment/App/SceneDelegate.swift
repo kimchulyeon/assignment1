@@ -10,12 +10,12 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var boardListViewModel: BoardListViewModel?
+    var boardListViewModel: HomeViewModel?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        boardListViewModel = BoardListViewModel()
-        boardListViewModel?.fetchData()
+        boardListViewModel = HomeViewModel()
+        boardListViewModel?.fetchboards()
         
         let homeVC = HomeViewController(viewModel: boardListViewModel!)
         let navVC = UINavigationController(rootViewController: homeVC)
