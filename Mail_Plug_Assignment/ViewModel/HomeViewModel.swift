@@ -13,6 +13,14 @@ class HomeViewModel: ViewModelType {
      boards : 게시판
      posts : 게시판 내에 게시글
      */
+    var boardID: Int? {
+        didSet {
+            guard let id = boardID else { return }
+            fetchBoardPosts(boardID: id)
+        }
+    }
+    var boards: [Board]?
+    
     private var boardsResponse: Boards? {
         didSet {
             boardsDidSet?(boardsResponse)
@@ -39,6 +47,8 @@ class HomeViewModel: ViewModelType {
         ApiService.shared.getBoards { [weak self] result in
             guard let weakSelf = self else { return }
             weakSelf.boardsResponse = result
+            weakSelf.boards = result?.value
+            weakSelf.boardID = result?.value[0].boardId
         }
     }
     
@@ -47,6 +57,7 @@ class HomeViewModel: ViewModelType {
         ApiService.shared.getPosts(boardID: boardID, offset: offset, limit: limit) { [weak self] result in
             guard let weakSelf = self else { return }
             weakSelf.postsResponse = result
+            weakSelf.posts = result?.value
         }
     }
 }

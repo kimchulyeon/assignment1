@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum PostType: String, Codable {
+    case notice = "notice"
+    case reply = "reply"
+    case normal = "normal"
+}
+
 struct Posts: Codable {
     let value: [Post]
     let count: Int
@@ -16,15 +22,24 @@ struct Posts: Codable {
 }
 
 struct Post: Codable {
-    let content: String
-    let createdDateTime: String
-    let viewCount: Int
-    let postType: String
-    let isNewPost: Bool
-    let hasInlineImage: Bool
-    let commentsCount: Int
-    let attachmentsCount: Int
-    let isAnonymous: Bool
-    let isOwner: Bool
-    let hasReply: Bool
+    let postId: Int?
+    let title: String?
+    let boardId: Int?
+    let boardDisplayName: String?
+    let writer: Writer?
+    let content: String?
+    let createdDateTime: String?
+    let viewCount: Int?
+    let postType: PostType?
+    let isNewPost: Bool?
+    let hasInlineImage: Bool?
+    let commentsCount: Int?
+    let attachmentsCount: Int?
+    let isAnonymous: Bool?
+    let isOwner: Bool?
+    let hasReply: Bool?
+}
+
+struct Writer: Codable {
+    let displayName, emailAddress: String?
 }

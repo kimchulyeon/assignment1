@@ -17,6 +17,7 @@ class HomeViewController: UIViewController {
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.delegate = self
         tv.dataSource = self
+        tv.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.identifier)
         return tv
     }()
 
@@ -39,6 +40,12 @@ class HomeViewController: UIViewController {
             guard let firstTitle = response?.value[0].displayName else { return }
             DispatchQueue.main.async {
                 self?.customNav.setTitle(title: firstTitle)
+            }
+        }
+        
+        viewModel?.postsDidSet = { [weak self] posts in
+            DispatchQueue.main.async {
+                self?.boardTableView.reloadData()
             }
         }
     }
@@ -69,12 +76,17 @@ extension HomeViewController: UITableViewDelegate {
 //MARK: - UITableViewDataSource ==================
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel?.posts?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "boardCell", for: indexPath)
-        let cell = UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: BoardTableViewCell.identifier, for: indexPath) as? BoardTableViewCell else { return UITableViewCell() }
+        let post = viewModel?.posts?[indexPath.row]
+        cell.configure(post: post)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 74
     }
 }

@@ -77,5 +77,6 @@ class ApiService {
                 completion(nil)
             }
         })
+        .resume()
     }
 }
