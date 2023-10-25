@@ -9,13 +9,14 @@ import UIKit
 
 class PostBadgeView: UIView {
     // MARK: - properties
-    let type: PostType
+    var type: PostType
 
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let lb = UILabel()
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.font = UIFont(name: "SpoqaHanSansNeo-Regular", size: 12)
         lb.textColor = .white
+        lb.textAlignment = .center
         return lb
     }()
 
@@ -23,16 +24,20 @@ class PostBadgeView: UIView {
     init(type: PostType) {
         self.type = type
         super.init(frame: .zero)
+        setView(with: type)
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - func
     private func setView(with type: PostType) {
+        translatesAutoresizingMaskIntoConstraints = false
+        layer.cornerRadius = 10
+
         setLabel(type: type)
 
-        layer.cornerRadius = 10
         addSubview(titleLabel)
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8).isActive = true
@@ -40,7 +45,7 @@ class PostBadgeView: UIView {
         titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         titleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
-    
+
     private func setLabel(type: PostType) {
         switch type {
         case .notice:
@@ -49,7 +54,7 @@ class PostBadgeView: UIView {
         case .reply:
             titleLabel.text = "Re"
             backgroundColor = UIColor(red: 71 / 255, green: 57 / 255, blue: 43 / 255, alpha: 1)
-        case .normal:
+        default:
             break
         }
     }

@@ -16,48 +16,58 @@ class HomeViewModel: ViewModelType {
     var boardID: Int? {
         didSet {
             guard let id = boardID else { return }
+            print(id)
             fetchBoardPosts(boardID: id)
         }
     }
-    var boards: [Board]?
-    
-    private var boardsResponse: Boards? {
+    var boards: [Board]? {
         didSet {
-            boardsDidSet?(boardsResponse)
+            boardsDidSet?(boards)
         }
     }
-    var boardsDidSet: ((Boards?) -> Void)?
-    
-    
-    private var postsResponse: Posts? {
-        didSet {
-            posts = postsResponse?.value
-        }
-    }
+    var boardsDidSet: (([Board]?) -> Void)?
+
     var posts: [Post]? {
         didSet {
             postsDidSet?(posts)
         }
     }
     var postsDidSet: (([Post]?) -> Void)?
-    
+
+    private var isFetching = false
+    private var totalPostsCount = 0
+
 
     /// 게시판 가져오기
     func fetchboards() {
         ApiService.shared.getBoards { [weak self] result in
             guard let weakSelf = self else { return }
-            weakSelf.boardsResponse = result
             weakSelf.boards = result?.value
             weakSelf.boardID = result?.value[0].boardId
         }
     }
-    
+
     /// 게시판 게시글 가져오기
     func fetchBoardPosts(boardID: Int, offset: Int = 0, limit: Int = 30) {
+        guard isFetching == false else { return }
+        isFetching = true
+
         ApiService.shared.getPosts(boardID: boardID, offset: offset, limit: limit) { [weak self] result in
             guard let weakSelf = self else { return }
-            weakSelf.postsResponse = result
-            weakSelf.posts = result?.value
+            weakSelf.isFetching = false
+            weakSelf.totalPostsCount = result?.total ?? 0
+
+            if let newPosts = result?.value {
+                if weakSelf.posts == nil {
+                    weakSelf.posts = newPosts
+                } else {
+                    weakSelf.posts?.append(contentsOf: newPosts)
+                }
+            }
         }
+    }
+
+    func canLoadMorePosts() -> Bool {
+        return totalPostsCount > (posts?.count ?? 0)
     }
 }
