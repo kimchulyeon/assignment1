@@ -7,17 +7,26 @@
 
 import UIKit
 
+protocol CustomNavViewDelegate: NSObject {
+    func tapBurgerButton()
+    func tapSearchButton()
+}
+
 class CustomNavView: UIView {
     //MARK: - properties ==================
+    weak var delegate: CustomNavViewDelegate?
+    private let viewModel: BoardViewModel?
+
     private let containerView: UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
-    private let burgerButton: UIButton = {
+    private lazy var burgerButton: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(UIImage(named: "burger"), for: .normal)
+        btn.addTarget(self, action: #selector(handleBurgerButton), for: .touchUpInside)
         btn.contentMode = .scaleAspectFit
         return btn
     }()
@@ -27,17 +36,25 @@ class CustomNavView: UIView {
         lb.font = UIFont(name: "SpoqaHanSansNeo-Medium", size: 22)
         return lb
     }()
-    private let searchButton: UIButton = {
+    private lazy var searchButton: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(UIImage(named: "search"), for: .normal)
+        btn.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
         return btn
     }()
 
     //MARK: - lifecycle ==================
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
+    init(viewModel: BoardViewModel?) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
+
+        viewModel?.displayNameDidSet = { [weak self] newName in
+            DispatchQueue.main.async {
+                self?.navTitle.text = newName
+            }
+        }
+
         setView()
     }
     required init?(coder: NSCoder) {
@@ -69,8 +86,22 @@ class CustomNavView: UIView {
         searchButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
         searchButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
     }
+
+    @objc func handleBurgerButton() {
+        delegate?.tapBurgerButton()
+//        let presentVC = CommonUtil.getNowPresentViewController()
+//        let menuVC = MenuViewController(viewModel: self.viewModel)
+//        presentVC?.present(menuVC, animated: true)
+    }
     
-    func setTitle(title: String) {
-        navTitle.text = title
+    @objc func handleSearchButton() {
+        delegate?.tapSearchButton()
+//        let presentVC = CommonUtil.getNowPresentViewController()
+//        let searchVC = SearchViewController(viewModel: self.viewModel)
+//        if presentVC is UINavigationController {
+//            (presentVC as? UINavigationController)?.pushViewController(searchVC, animated: true)
+//        } else {
+//            presentVC?.navigationController?.pushViewController(searchVC, animated: true)
+//        }
     }
 }

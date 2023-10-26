@@ -7,16 +7,16 @@
 
 import Foundation
 
-class HomeViewModel: ViewModelType {
-    /**
-     boardID: 게시판 ID
-     boards : 게시판
-     posts : 게시판 내에 게시글
-     */
+class BoardViewModel {
+    //MARK: - properties ==================
     var boardID: Int? {
         didSet {
-            guard let id = boardID else { return }
-            print(id)
+//            guard let id = boardID else { return }
+            guard let id = boardID, let board = boards?.first(where: { $0.boardId == id }) else { return }
+            totalPostsCount = 0
+            isFetching = false
+            posts = nil
+            displayName = board.displayName
             fetchBoardPosts(boardID: id)
         }
     }
@@ -34,12 +34,22 @@ class HomeViewModel: ViewModelType {
     }
     var postsDidSet: (([Post]?) -> Void)?
 
+    var displayName: String? {
+          didSet {
+              displayNameDidSet?(displayName)
+          }
+      }
+      var displayNameDidSet: ((String?) -> Void)?
+    
     private var isFetching = false
     private var totalPostsCount = 0
+    
+   
 
 
+    //MARK: - func ==================
     /// 게시판 가져오기
-    func fetchboards() {
+    func fetchBoards() {
         ApiService.shared.getBoards { [weak self] result in
             guard let weakSelf = self else { return }
             weakSelf.boards = result?.value
@@ -56,7 +66,7 @@ class HomeViewModel: ViewModelType {
             guard let weakSelf = self else { return }
             weakSelf.isFetching = false
             weakSelf.totalPostsCount = result?.total ?? 0
-
+            
             if let newPosts = result?.value {
                 if weakSelf.posts == nil {
                     weakSelf.posts = newPosts
@@ -67,7 +77,15 @@ class HomeViewModel: ViewModelType {
         }
     }
 
+    /// 게시판 리스트를 더 불러올 수 있는지에 대한 불린값
     func canLoadMorePosts() -> Bool {
         return totalPostsCount > (posts?.count ?? 0)
+    }
+    
+    /// 게시판 변경 (boardID값 변경)
+    func changeBoardID(id: Int?) {
+        if let id = id {
+            boardID = id
+        }
     }
 }
