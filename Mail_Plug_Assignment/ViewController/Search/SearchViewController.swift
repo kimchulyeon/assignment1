@@ -24,17 +24,6 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "\(viewModel?.displayName ?? "")에서 검색"
-        navigationItem.titleView = searchBar
-        navigationItem.hidesBackButton = true
-        let cancel = UIBarButtonItem(title: "취소", style: .plain, target: nil, action: #selector(handleCancelButton))
-            self.navigationItem.rightBarButtonItem = cancel
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = false
     }
     
     //MARK: - func ==================
