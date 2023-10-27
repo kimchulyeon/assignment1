@@ -11,13 +11,12 @@ class SearchTypeTableViewCell: UITableViewCell {
     //MARK: - properties
     static let identifier = "SearchTypeCell"
 
-    let isHistoryCell: Bool
-    let type: SearchType
+    var isHistoryCell: Bool?
+    var type: SearchType?
 
     private let containerView: UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
-        v.heightAnchor.constraint(equalToConstant: 24).isActive = true
         return v
     }()
     private let historyIcon: UIImageView = {
@@ -47,21 +46,24 @@ class SearchTypeTableViewCell: UITableViewCell {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleAspectFit
+        iv.tintColor = UIColor(red: 66/255, green: 66/255, blue: 66/255, alpha: 1)
         iv.heightAnchor.constraint(equalToConstant: 18).isActive = true
         iv.widthAnchor.constraint(equalToConstant: 18).isActive = true
         return iv
     }()
 
     //MARK: - lifecycle
-    init(type: SearchType, isHistory: Bool) {
-        self.type = type
-        self.isHistoryCell = isHistory
-        super.init(style: .default, reuseIdentifier: "SearchTypeCell")
-        
-        setView()
-    }
+//    init(type: SearchType, isHistory: Bool) {
+//        self.type = type
+//        self.isHistoryCell = isHistory
+//        super.init(style: .default, reuseIdentifier: "SearchTypeCell")
+//        
+//        setView()
+//    }
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setView()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -107,5 +109,14 @@ class SearchTypeTableViewCell: UITableViewCell {
             accessoryImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
             accessoryImageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         }
+    }
+    
+    func configure(type: SearchType, isHistoryCell: Bool) {
+        self.type = type
+        self.isHistoryCell = isHistoryCell
+        
+        searchTypeLabel.text = "\(type.rawValue) :"
+        searchLabel.text = "TEST"
+        accessoryImageView.image = UIImage(systemName: "chevron.right")
     }
 }

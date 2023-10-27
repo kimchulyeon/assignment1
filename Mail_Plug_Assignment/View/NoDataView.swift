@@ -32,6 +32,7 @@ class NoDataView: UIView {
         lb.font = UIFont(name: "SpoqaHanSansNeo-Regular", size: 14)
         lb.textColor = UIColor(red: 117/255, green: 117/255, blue: 117/255, alpha: 1)
         lb.textAlignment = .center
+        lb.numberOfLines = 0
         return lb
     }()
     
@@ -55,6 +56,7 @@ class NoDataView: UIView {
         
         addSubview(vStackView)
         vStackView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        vStackView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        vStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 69).isActive = true
+        vStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -69).isActive = true
     }
 }

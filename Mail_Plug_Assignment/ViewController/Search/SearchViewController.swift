@@ -23,7 +23,7 @@ class SearchViewController: UIViewController {
     private lazy var resultTableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
-//        tv.separatorStyle = .none
+        tv.separatorInset = .zero
         tv.delegate = self
         tv.dataSource = self
         tv.backgroundColor = UIColor(red: 247 / 255, green: 247 / 255, blue: 247 / 255, alpha: 1)
@@ -45,6 +45,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
 
         setView()
+        setNoDataView()
     }
 
     //MARK: - func
@@ -58,11 +59,11 @@ class SearchViewController: UIViewController {
         searchBarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 18).isActive = true
         searchBarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -18).isActive = true
         
-        view.addSubview(resultTableView)
-        resultTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        resultTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        resultTableView.topAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
-        resultTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+//        view.addSubview(resultTableView)
+//        resultTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+//        resultTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+//        resultTableView.topAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
+//        resultTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 
     private func setNoDataView() {
@@ -73,7 +74,7 @@ class SearchViewController: UIViewController {
         noDataView.translatesAutoresizingMaskIntoConstraints = false
         noDataView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         noDataView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        noDataView.topAnchor.constraint(equalTo: searchBarView.bottomAnchor).isActive = true
+        noDataView.topAnchor.constraint(equalTo: searchBarView.bottomAnchor, constant: 10).isActive = true
         noDataView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 }
@@ -85,12 +86,19 @@ extension SearchViewController: UITableViewDelegate {
 
 //MARK: - UITableViewDataSource
 extension SearchViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 58
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        SearchType.allCases.count
+        return SearchType.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTypeTableViewCell.identifier, for: indexPath) as? SearchTypeTableViewCell else { return UITableViewCell() }
+        cell.configure(type: SearchType.allCases[indexPath.row], isHistoryCell: false)
+        cell.selectionStyle = .none
+        tableView.alwaysBounceVertical = false
         return cell
     }
 }

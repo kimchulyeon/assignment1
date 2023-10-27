@@ -35,19 +35,21 @@ class BoardViewModel {
     var postsDidSet: (([Post]?) -> Void)?
 
     var displayName: String? {
-          didSet {
-              displayNameDidSet?(displayName)
-          }
-      }
-      var displayNameDidSet: ((String?) -> Void)?
+        didSet {
+            displayNameDidSet?(displayName)
+        }
+    }
+    var displayNameDidSet: ((String?) -> Void)?
     
     private var isFetching = false
     private var totalPostsCount = 0
     
-   
+    var searchValue: String? 
 
 
-    //MARK: - func 
+
+
+    //MARK: - func
     /// 게시판 가져오기
     func fetchBoards() {
         ApiService.shared.getBoards { [weak self] result in
@@ -66,7 +68,7 @@ class BoardViewModel {
             guard let weakSelf = self else { return }
             weakSelf.isFetching = false
             weakSelf.totalPostsCount = result?.total ?? 0
-            
+
             if let newPosts = result?.value {
                 if weakSelf.posts == nil {
                     weakSelf.posts = newPosts
@@ -81,7 +83,7 @@ class BoardViewModel {
     func canLoadMorePosts() -> Bool {
         return totalPostsCount > (posts?.count ?? 0)
     }
-    
+
     /// 게시판 변경 (boardID값 변경)
     func changeBoardID(id: Int?) {
         if let id = id {

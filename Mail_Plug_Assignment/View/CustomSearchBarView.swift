@@ -60,6 +60,7 @@ class CustomSearchBarView: UIView {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("취소", for: .normal)
+        btn.titleLabel?.font = UIFont(name: "SpoqaHanSansNeo-Regular", size: 16)
         btn.setTitleColor(UIColor(red: 117 / 255, green: 117 / 255, blue: 117 / 255, alpha: 1), for: .normal)
         btn.addTarget(self, action: #selector(handleCancelButton), for: .touchUpInside)
         return btn
@@ -91,6 +92,8 @@ class CustomSearchBarView: UIView {
 
         containerHStackView.addArrangedSubview(cancelButton)
         cancelButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        cancelButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        cancelButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
 
     required init?(coder: NSCoder) {
