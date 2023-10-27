@@ -51,7 +51,7 @@ class CustomSearchBarView: UIView {
         iv.heightAnchor.constraint(equalToConstant: 20).isActive = true
         return iv
     }()
-    private lazy var searchTextField: UITextField = {
+    lazy var searchTextField: UITextField = {
         let tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf

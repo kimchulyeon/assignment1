@@ -44,6 +44,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        searchBarView.searchTextField.delegate = self
         setView()
         setNoDataView()
     }
@@ -107,5 +108,13 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: CustomSearchBarViewDelegate {
     func tapCancelButton() {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+//MARK: - UITextFieldDelegate
+extension SearchViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("wow")
+        print(textField)
     }
 }
