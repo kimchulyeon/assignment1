@@ -8,7 +8,7 @@
 import UIKit
 
 class NoDataView: UIView {
-    //MARK: - properties ==================
+    //MARK: - properties
     private lazy var vStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [noDataImageView, noDataLabel])
         sv.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +35,7 @@ class NoDataView: UIView {
         return lb
     }()
     
-    //MARK: - lifecycle ==================
+    //MARK: - lifecycle
     init(imageName: String, text: String) {
         self.noDataImageView.image = UIImage(named: imageName)
         self.noDataLabel.text = text
@@ -49,9 +49,8 @@ class NoDataView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - func ==================
+    //MARK: - func 
     private func setView() {
-        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor(red: 247/255, green: 247/255, blue: 247/255, alpha: 1)
         
         addSubview(vStackView)

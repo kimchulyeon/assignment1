@@ -8,7 +8,7 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    //MARK: - properties ==================
+    //MARK: - properties
     private let viewModel: BoardViewModel?
     private lazy var customNav: CustomNavView = {
         let v = CustomNavView(viewModel: self.viewModel)
@@ -28,7 +28,7 @@ class HomeViewController: UIViewController {
         return tv
     }()
 
-    //MARK: - lifecycle ==================
+    //MARK: - lifecycle
     init(viewModel: BoardViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -55,7 +55,7 @@ class HomeViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
     }
     
-    //MARK: - func ==================
+    //MARK: - func
     func setView() {
         view.addSubview(customNav)
         customNav.translatesAutoresizingMaskIntoConstraints = false
@@ -76,6 +76,7 @@ class HomeViewController: UIViewController {
         guard let noDataView = noDataView else { return }
         
         view.addSubview(noDataView)
+        noDataView.translatesAutoresizingMaskIntoConstraints = false
         noDataView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         noDataView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         noDataView.topAnchor.constraint(equalTo: customNav.bottomAnchor).isActive = true
@@ -83,7 +84,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-//MARK: - UITableViewDelegate ==================
+//MARK: - UITableViewDelegate
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let postCount = viewModel?.posts?.count else { return }
@@ -96,7 +97,7 @@ extension HomeViewController: UITableViewDelegate {
     }
 }
 
-//MARK: - UITableViewDataSource ==================
+//MARK: - UITableViewDataSource
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //        return Test.dummy.count
@@ -122,7 +123,7 @@ extension HomeViewController: UITableViewDataSource {
     }
 }
 
-//MARK: - CustomNavViewDelegate ==================
+//MARK: - CustomNavViewDelegate
 extension HomeViewController: CustomNavViewDelegate {
     func tapBurgerButton() {
         let menuVC = MenuViewController(viewModel: self.viewModel)
@@ -134,3 +135,4 @@ extension HomeViewController: CustomNavViewDelegate {
         navigationController?.pushViewController(searchVC, animated: true)
     }
 }
+

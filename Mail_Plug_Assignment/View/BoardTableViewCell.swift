@@ -126,9 +126,11 @@ class BoardTableViewCell: UITableViewCell {
 
         if let type = post?.postType, (type == .notice || type == .reply) {
             postTypeBadgeView = PostBadgeView(type: type)
-            postTypeBadgeView?.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-            postTypeBadgeView?.widthAnchor.constraint(equalToConstant: (postTypeBadgeView?.titleLabel.intrinsicContentSize.width)! + 16).isActive = true
-            titleHStackView.addArrangedSubview(postTypeBadgeView!)
+            guard let postTypeBadgeView = postTypeBadgeView else { return }
+            postTypeBadgeView.translatesAutoresizingMaskIntoConstraints = false
+            postTypeBadgeView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+            postTypeBadgeView.widthAnchor.constraint(equalToConstant: postTypeBadgeView.titleLabel.intrinsicContentSize.width + 16).isActive = true
+            titleHStackView.addArrangedSubview(postTypeBadgeView)
         }
 
         titleLabel.text = post?.title

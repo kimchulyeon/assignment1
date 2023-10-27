@@ -13,7 +13,7 @@ protocol CustomNavViewDelegate: NSObject {
 }
 
 class CustomNavView: UIView {
-    //MARK: - properties ==================
+    //MARK: - properties
     weak var delegate: CustomNavViewDelegate?
     private let viewModel: BoardViewModel?
 
@@ -44,7 +44,7 @@ class CustomNavView: UIView {
         return btn
     }()
 
-    //MARK: - lifecycle ==================
+    //MARK: - lifecycle 
     init(viewModel: BoardViewModel?) {
         self.viewModel = viewModel
         super.init(frame: .zero)
@@ -61,7 +61,7 @@ class CustomNavView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    //MARK: - func ==================
+    //MARK: - func
     private func setView() {
         addSubview(containerView)
         containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18).isActive = true

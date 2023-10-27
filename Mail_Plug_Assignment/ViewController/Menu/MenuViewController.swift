@@ -8,7 +8,7 @@
 import UIKit
 
 class MenuViewController: UIViewController {
-    //MARK: - properties ==================
+    //MARK: - properties
     private let viewModel: BoardViewModel?
 
     private lazy var dismissButton: UIButton = {
@@ -47,7 +47,7 @@ class MenuViewController: UIViewController {
         return tv
     }()
 
-    //MARK: - lifecycle ==================
+    //MARK: - lifecycle
     init(viewModel: BoardViewModel?) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -73,7 +73,7 @@ class MenuViewController: UIViewController {
 
     }
 
-    //MARK: - func ==================
+    //MARK: - func
     private func setView() {
         view.backgroundColor = .white
 
@@ -107,7 +107,7 @@ class MenuViewController: UIViewController {
 }
 
 
-//MARK: - UITableViewDelegate ==================
+//MARK: - UITableViewDelegate
 extension MenuViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedBoardID = viewModel?.boards?[indexPath.row].boardId
@@ -116,7 +116,7 @@ extension MenuViewController: UITableViewDelegate {
     }
 }
 
-//MARK: - UITableViewDataSource ==================
+//MARK: - UITableViewDataSource 
 extension MenuViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel?.boards?.count ?? 0

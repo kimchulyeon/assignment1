@@ -8,7 +8,7 @@
 import Foundation
 
 class BoardViewModel {
-    //MARK: - properties ==================
+    //MARK: - properties
     var boardID: Int? {
         didSet {
 //            guard let id = boardID else { return }
@@ -47,7 +47,7 @@ class BoardViewModel {
    
 
 
-    //MARK: - func ==================
+    //MARK: - func 
     /// 게시판 가져오기
     func fetchBoards() {
         ApiService.shared.getBoards { [weak self] result in

@@ -33,7 +33,6 @@ class PostBadgeView: UIView {
 
     // MARK: - func
     private func setView(with type: PostType) {
-        translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 10
 
         setLabel(type: type)
