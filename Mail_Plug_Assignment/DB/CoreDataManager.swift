@@ -17,7 +17,7 @@ class CoreDataManager {
 
     private init() { }
 
-    func saveSearchHistory(searchText: String, searchType: String) {
+    func saveSearchedHistory(searchText: String, searchType: String) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "SearchHistory")
         fetchRequest.predicate = NSPredicate(format: "searchText == %@ AND searchType == %@", searchText, searchType)
 
@@ -36,7 +36,7 @@ class CoreDataManager {
         }
     }
 
-    func fetchSearchHistory() -> [(searchText: String, searchType: String)] {
+    func getSearchedHistoryListFromDB() -> [(searchText: String, searchType: String)] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SearchHistory")
 
         var searchHistories: [(searchText: String, searchType: String)] = []
@@ -55,7 +55,7 @@ class CoreDataManager {
         return searchHistories
     }
 
-    func deleteSearchHistory(searchText: String, searchType: String) {
+    func deleteSearchedHistory(searchText: String, searchType: String) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "SearchHistory")
         fetchRequest.predicate = NSPredicate(format: "searchText == %@ AND searchType == %@", searchText, searchType)
 
@@ -72,7 +72,7 @@ class CoreDataManager {
     }
 
 
-    func deleteAllSearchHistory() {
+    func deleteAllSearchedHistory() {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "SearchHistory")
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
@@ -83,15 +83,15 @@ class CoreDataManager {
         }
     }
 
-    func deleteSearchHistory(at index: Int) {
-        let allHistories = fetchSearchHistory()
+    func deleteSearchedHistory(at index: Int) {
+        let allHistories = getSearchedHistoryListFromDB()
         if index < 0 || index >= allHistories.count {
             print("Invalid index")
             return
         }
         
         let historyToDelete = allHistories[index]
-        deleteSearchHistory(searchText: historyToDelete.searchText, searchType: historyToDelete.searchType)
+        deleteSearchedHistory(searchText: historyToDelete.searchText, searchType: historyToDelete.searchType)
     }
 }
 

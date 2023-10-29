@@ -41,7 +41,7 @@ class SearchViewController: UIViewController {
         tv.separatorInset = .zero
         tv.delegate = self
         tv.dataSource = self
-        tv.backgroundColor = UIColor(red: 247 / 255, green: 247 / 255, blue: 247 / 255, alpha: 1)
+        tv.backgroundColor = UIColor.backgroundColor
         tv.register(BoardTableViewCell.self, forCellReuseIdentifier: BoardTableViewCell.identifier)
         tv.register(SearchTypeTableViewCell.self, forCellReuseIdentifier: SearchTypeTableViewCell.identifier)
         return tv
@@ -51,19 +51,22 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        searchBarView.searchTextField.delegate = self
+        setCustomSearchBarTextFieldDelegate()
         setView()
-
-        if CoreDataManager.shared.fetchSearchHistory().isEmpty == true {
-            setNoDataView(imageName: "noHistory", text: "게시글의 제목, 내용 또는 작성자에 포함된 단어 또는 문장을 검색해주세요.")
-            resultTableView.removeFromSuperview()
-        } else {
-            showSearchTextWithTypeTableView()
-            tableType = .history
-        }
+        setViewDependingOnHistory()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        view.endEditing(true)
     }
 
     //MARK: - func
+    private func setCustomSearchBarTextFieldDelegate() {
+        searchBarView.searchTextField.delegate = self
+    }
+
     private func setView() {
         view.backgroundColor = .white
 
@@ -73,6 +76,15 @@ class SearchViewController: UIViewController {
         searchBarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         searchBarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 18).isActive = true
         searchBarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -18).isActive = true
+    }
+
+    private func setViewDependingOnHistory() {
+        if CoreDataManager.shared.getSearchedHistoryListFromDB().isEmpty == true {
+            setNoDataView(imageName: "noHistory", text: "게시글의 제목, 내용 또는 작성자에 포함된 단어 또는 문장을 검색해주세요.")
+        } else {
+            tableType = .history
+            showSelectSearchTypeTableView()
+        }
     }
 
     /// 검색 이력이 없을 때 NoDataView
@@ -92,10 +104,12 @@ class SearchViewController: UIViewController {
         noDataView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         noDataView.topAnchor.constraint(equalTo: searchBarView.bottomAnchor, constant: 10).isActive = true
         noDataView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+
+        resultTableView.removeFromSuperview()
     }
 
     /// 전체 제목 내용 작성자 테이블뷰
-    private func showSearchTextWithTypeTableView() {
+    private func showSelectSearchTypeTableView() {
         view.addSubview(resultTableView)
         resultTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         resultTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
@@ -107,33 +121,30 @@ class SearchViewController: UIViewController {
     /// TextField debounce
     @objc func debounceTextField() {
         if let text = debounceTimer?.userInfo as? String {
-            DispatchQueue.main.async { [weak self] in
-                self?.currentSearchText = text
-                self?.searchBarView.searchTypeLabel.text = ""
+//            DispatchQueue.main.async { [weak self] in
+            currentSearchText = text
+            searchBarView.searchTypeLabel.text = ""
 
-                if let tableType = self?.tableType {
-                    if (tableType == .board || tableType == .history) && text.isEmpty == false {
-                        self?.tableType = .searchType
-                        self?.noDataView?.isHidden = true
-                        return
-                    }
-                }
-
-                if text.isEmpty == false {
-                    self?.showSearchTextWithTypeTableView()
-                    self?.noDataView?.isHidden = true
-                    return
-                }
-
-                if (text.isEmpty == true && CoreDataManager.shared.fetchSearchHistory().isEmpty == false) {
-                    self?.tableType = .history
-                    self?.noDataView?.isHidden = true
-                    return
-                }
-
-                self?.setNoDataView(imageName: "noHistory", text: "게시글의 제목, 내용 또는 작성자에 포함된 단어 또는 문장을 검색해주세요.")
-                self?.resultTableView.removeFromSuperview()
+            if (tableType == .board || tableType == .history) && text.isEmpty == false {
+                tableType = .searchType
+                noDataView?.isHidden = true
+                return
             }
+
+            if text.isEmpty == false {
+                showSelectSearchTypeTableView()
+                noDataView?.isHidden = true
+                return
+            }
+
+            if (text.isEmpty == true && CoreDataManager.shared.getSearchedHistoryListFromDB().isEmpty == false) {
+                tableType = .history
+                noDataView?.isHidden = true
+                return
+            }
+
+            setNoDataView(imageName: "noHistory", text: "게시글의 제목, 내용 또는 작성자에 포함된 단어 또는 문장을 검색해주세요.")
+//            }
         }
     }
 }
@@ -143,17 +154,17 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let boardIdString = UserDefaultsManager.shared.getStringData(key: .boardID) else { return }
         let boardID = Int(boardIdString)
-        
+
         if tableType == .searchType {
             self.searchedPosts = nil
             tableType = .board
 
             let searchTarget = SearchType.allCases[indexPath.row]
             searchBarView.searchTypeLabel.text = "\(searchTarget.korType) :" //
-            
+
 
             if let currentSearchText = currentSearchText {
-                CoreDataManager.shared.saveSearchHistory(searchText: currentSearchText, searchType: searchTarget.korType)
+                CoreDataManager.shared.saveSearchedHistory(searchText: currentSearchText, searchType: searchTarget.korType)
             }
 
             ApiService.shared.getSearchedPosts(boardID: boardID ?? 0, search: currentSearchText, searchTarget: searchTarget) { [weak self] searchedPosts in
@@ -161,14 +172,17 @@ extension SearchViewController: UITableViewDelegate {
                     if searchedPosts?.value.isEmpty == true {
                         self?.setNoDataView(imageName: "noResult", text: "검색 결과가 없습니다.\n 다른 검색어를 입력해 보세요.")
                     }
-                    self?.searchedPosts = searchedPosts
                 }
+                self?.searchedPosts = searchedPosts
             }
         }
 
         if tableType == .history {
-            let historySearchedText = CoreDataManager.shared.fetchSearchHistory()[indexPath.row].searchText
-            guard let historySearchedTarget = SearchType.fromKorType(CoreDataManager.shared.fetchSearchHistory()[indexPath.row].searchType) else { return }
+            let historySearchedText = CoreDataManager.shared.getSearchedHistoryListFromDB()[indexPath.row].searchText
+            guard let historySearchedTarget = SearchType.fromKorType(CoreDataManager.shared.getSearchedHistoryListFromDB()[indexPath.row].searchType) else { return }
+
+            searchBarView.searchTypeLabel.text = "\(historySearchedTarget.korType) :"
+            searchBarView.searchTextField.text = historySearchedText
             
             ApiService.shared.getSearchedPosts(boardID: boardID ?? 0, search: historySearchedText, searchTarget: historySearchedTarget) { [weak self] searchedPosts in
                 DispatchQueue.main.async {
@@ -176,8 +190,8 @@ extension SearchViewController: UITableViewDelegate {
                         self?.setNoDataView(imageName: "noResult", text: "검색 결과가 없습니다.\n 다른 검색어를 입력해 보세요.")
                     }
                     self?.tableType = .board
-                    self?.searchedPosts = searchedPosts
                 }
+                self?.searchedPosts = searchedPosts
             }
         }
     }
@@ -197,7 +211,7 @@ extension SearchViewController: UITableViewDataSource {
         if tableType == .searchType {
             return SearchType.allCases.count
         } else if tableType == .history {
-            return CoreDataManager.shared.fetchSearchHistory().count
+            return CoreDataManager.shared.getSearchedHistoryListFromDB().count
         } else {
             return searchedPosts?.value.count ?? 0
         }
@@ -213,9 +227,9 @@ extension SearchViewController: UITableViewDataSource {
             return cell
         } else if tableType == .history {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTypeTableViewCell.identifier, for: indexPath) as? SearchTypeTableViewCell else { return UITableViewCell() }
-            cell.configure(type: SearchType.allCases[indexPath.row], isHistoryCell: true)
-            cell.searchLabel.text = CoreDataManager.shared.fetchSearchHistory()[indexPath.row].searchText
-            cell.searchTypeLabel.text = "\(CoreDataManager.shared.fetchSearchHistory()[indexPath.row].searchType) :"
+            cell.configure(type: nil, isHistoryCell: true)
+            cell.searchLabel.text = CoreDataManager.shared.getSearchedHistoryListFromDB()[indexPath.row].searchText
+            cell.searchTypeLabel.text = "\(CoreDataManager.shared.getSearchedHistoryListFromDB()[indexPath.row].searchType) :"
             cell.index = indexPath.row
             cell.selectionStyle = .none
             cell.delegate = self
@@ -247,6 +261,7 @@ extension SearchViewController: UITextFieldDelegate {
         let inputText = currentText.replacingCharacters(in: stringRange, with: string)
 
         debounceTimer?.invalidate()
+        debounceTimer = nil
         debounceTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(debounceTextField), userInfo: inputText, repeats: false)
         return true
     }
@@ -255,6 +270,10 @@ extension SearchViewController: UITextFieldDelegate {
 // MARK: - SearchTypeTableViewCellDelegate
 extension SearchViewController: SearchTypeTableViewCellDelegate {
     func deleteHistory() {
+        if CoreDataManager.shared.getSearchedHistoryListFromDB().isEmpty == true {
+            setNoDataView(imageName: "noHistory", text: "게시글의 제목, 내용 또는 작성자에 포함된 단어 또는 문장을 검색해주세요.")
+            tableType = .searchType
+        }
         resultTableView.reloadData()
     }
 }

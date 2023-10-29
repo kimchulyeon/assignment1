@@ -89,19 +89,9 @@ class CustomNavView: UIView {
 
     @objc func handleBurgerButton() {
         delegate?.tapBurgerButton()
-//        let presentVC = CommonUtil.getNowPresentViewController()
-//        let menuVC = MenuViewController(viewModel: self.viewModel)
-//        presentVC?.present(menuVC, animated: true)
     }
     
     @objc func handleSearchButton() {
         delegate?.tapSearchButton()
-//        let presentVC = CommonUtil.getNowPresentViewController()
-//        let searchVC = SearchViewController(viewModel: self.viewModel)
-//        if presentVC is UINavigationController {
-//            (presentVC as? UINavigationController)?.pushViewController(searchVC, animated: true)
-//        } else {
-//            presentVC?.navigationController?.pushViewController(searchVC, animated: true)
-//        }
     }
 }

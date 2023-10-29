@@ -15,7 +15,7 @@ class MenuViewController: UIViewController {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(UIImage(systemName: "xmark"), for: .normal)
-        btn.tintColor = UIColor(red: 36 / 255, green: 30 / 255, blue: 23 / 255, alpha: 1)
+        btn.tintColor = UIColor.darkGrayTextColor
         btn.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
         return btn
     }()
@@ -25,14 +25,14 @@ class MenuViewController: UIViewController {
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.text = "게시판"
         lb.font = UIFont(name: "SpoqaHanSansNeo-light", size: 14)
-        lb.textColor = UIColor(red: 36 / 255, green: 30 / 255, blue: 23 / 255, alpha: 1)
+        lb.textColor = UIColor.darkGrayTextColor
         return lb
     }()
 
     private let dividerView: UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
-        v.backgroundColor = .lightGray
+        v.backgroundColor = UIColor.backgroundColor
         return v
     }()
 

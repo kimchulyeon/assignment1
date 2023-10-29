@@ -27,7 +27,7 @@ class CustomSearchBarView: UIView {
     private let textFieldContainerView: UIView = {
         let v = UIView()
         v.translatesAutoresizingMaskIntoConstraints = false
-        v.backgroundColor = UIColor(red: 247 / 255, green: 247 / 255, blue: 247 / 255, alpha: 1)
+        v.backgroundColor = UIColor.backgroundColor
         v.layer.cornerRadius = 4
         return v
     }()
@@ -55,8 +55,7 @@ class CustomSearchBarView: UIView {
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.textAlignment = .center
         lb.font = UIFont(name: "SpoqaHanSansNeo-Regular", size: 14)
-        lb.textColor = UIColor(red: 117 / 255, green: 117 / 255, blue: 117 / 255, alpha: 1)
-//        lb.widthAnchor.constraint(equalToConstant: lb.intrinsicContentSize.width).isActive = true
+        lb.textColor = UIColor.grayTextColor
         return lb
     }()
     lazy var searchTextField: UITextField = {
@@ -69,7 +68,7 @@ class CustomSearchBarView: UIView {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("취소", for: .normal)
         btn.titleLabel?.font = UIFont(name: "SpoqaHanSansNeo-Regular", size: 16)
-        btn.setTitleColor(UIColor(red: 117 / 255, green: 117 / 255, blue: 117 / 255, alpha: 1), for: .normal)
+        btn.setTitleColor(UIColor.grayTextColor, for: .normal)
         btn.addTarget(self, action: #selector(handleCancelButton), for: .touchUpInside)
         return btn
     }()
@@ -79,6 +78,16 @@ class CustomSearchBarView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        setView()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+
+    //MARK: - func
+    private func setView() {
         let displayName = UserDefaultsManager.shared.getStringData(key: .boardDisplayName)
         searchTextField.placeholder = "\(displayName ?? "")에서 검색"
 
@@ -103,12 +112,10 @@ class CustomSearchBarView: UIView {
         cancelButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    @objc func doneButtonAction() {
+        searchTextField.resignFirstResponder()
     }
 
-
-    //MARK: - func
     @objc func handleCancelButton() {
         delegate?.tapCancelButton()
     }

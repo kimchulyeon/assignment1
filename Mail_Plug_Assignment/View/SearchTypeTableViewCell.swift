@@ -14,12 +14,11 @@ protocol SearchTypeTableViewCellDelegate: NSObject {
 class SearchTypeTableViewCell: UITableViewCell {
     //MARK: - properties
     static let identifier = "SearchTypeCell"
-    
+
     weak var delegate: SearchTypeTableViewCellDelegate?
 
     var index: Int?
     var isHistoryCell: Bool?
-    var type: SearchType?
 
     private let containerView: UIView = {
         let v = UIView()
@@ -39,7 +38,7 @@ class SearchTypeTableViewCell: UITableViewCell {
         let lb = UILabel()
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.font = UIFont(name: "SpoqaHanSansNeo-Regular", size: 14)
-        lb.textColor = UIColor(red: 117 / 255, green: 117 / 255, blue: 117 / 255, alpha: 1)
+        lb.textColor = UIColor.grayTextColor
         return lb
     }()
     let searchLabel: UILabel = {
@@ -111,17 +110,30 @@ class SearchTypeTableViewCell: UITableViewCell {
         }
     }
 
-    func configure(type: SearchType, isHistoryCell: Bool) {
-        self.type = type
+    func configure(type: SearchType?, isHistoryCell: Bool) {
         self.isHistoryCell = isHistoryCell
 
         for subview in contentView.subviews {
             subview.removeFromSuperview()
         }
-        
+
         for subview in containerView.subviews {
             subview.removeFromSuperview()
         }
+
+        if let type = type {
+            switch type {
+            case .all:
+                searchTypeLabel.text = "전체 :"
+            case .title:
+                searchTypeLabel.text = "제목 :"
+            case .contents:
+                searchTypeLabel.text = "내용 :"
+            case .writer:
+                searchTypeLabel.text = "작성자 :"
+            }
+        }
+
 
         contentView.backgroundColor = .white
         contentView.addSubview(containerView)
@@ -154,22 +166,11 @@ class SearchTypeTableViewCell: UITableViewCell {
         accessoryButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
         accessoryButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
         accessoryButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-
-        switch type {
-        case .all:
-            searchTypeLabel.text = "전체 :"
-        case .title:
-            searchTypeLabel.text = "제목 :"
-        case .contents:
-            searchTypeLabel.text = "내용 :"
-        case .writer:
-            searchTypeLabel.text = "작성자 :"
-        }
     }
-    
+
     @objc func deleteHistory() {
         guard let index = index else { return }
-        CoreDataManager.shared.deleteSearchHistory(at: index)
+        CoreDataManager.shared.deleteSearchedHistory(at: index)
         delegate?.deleteHistory()
     }
 }

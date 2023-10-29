@@ -63,14 +63,14 @@ class BoardTableViewCell: UITableViewCell {
         let lb = UILabel()
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.font = UIFont(name: "SpoqaHanSansNeo-light", size: 12)
-        lb.textColor = UIColor(red: 158 / 255, green: 158 / 255, blue: 158 / 255, alpha: 1)
+        lb.textColor = UIColor.lightGrayTextColor
         return lb
     }()
     private let dateLabel: UILabel = {
         let lb = UILabel()
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.font = UIFont(name: "SpoqaHanSansNeo-light", size: 12)
-        lb.textColor = UIColor(red: 158 / 255, green: 158 / 255, blue: 158 / 255, alpha: 1)
+        lb.textColor = UIColor.lightGrayTextColor
         return lb
     }()
     private let eyeIcon: UIImageView = {
@@ -84,7 +84,7 @@ class BoardTableViewCell: UITableViewCell {
         let lb = UILabel()
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.font = UIFont(name: "SpoqaHanSansNeo-light", size: 12)
-        lb.textColor = UIColor(red: 158 / 255, green: 158 / 255, blue: 158 / 255, alpha: 1)
+        lb.textColor = UIColor.lightGrayTextColor
         return lb
     }()
 
@@ -176,7 +176,7 @@ class BoardTableViewCell: UITableViewCell {
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.text = "•"
         lb.font = UIFont(name: "SpoqaHanSansNeo-Light", size: 12)
-        lb.textColor = UIColor(red: 158 / 255, green: 158 / 255, blue: 158 / 255, alpha: 1)
+        lb.textColor = UIColor.lightGrayTextColor
         return lb
     }
 }

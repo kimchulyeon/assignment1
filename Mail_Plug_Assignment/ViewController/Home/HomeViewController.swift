@@ -100,7 +100,6 @@ extension HomeViewController: UITableViewDelegate {
 //MARK: - UITableViewDataSource
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        return Test.dummy.count
         if viewModel?.posts?.count == 0 {
             setNoDataView()
         } else {
@@ -112,7 +111,6 @@ extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: BoardTableViewCell.identifier, for: indexPath) as? BoardTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
-        //        let post = Test.dummy[indexPath.row]
         let post = viewModel?.posts?[indexPath.row]
         cell.configure(post: post)
         return cell

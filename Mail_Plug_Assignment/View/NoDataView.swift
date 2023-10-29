@@ -30,7 +30,7 @@ class NoDataView: UIView {
         let lb = UILabel()
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.font = UIFont(name: "SpoqaHanSansNeo-Regular", size: 14)
-        lb.textColor = UIColor(red: 117/255, green: 117/255, blue: 117/255, alpha: 1)
+        lb.textColor = UIColor.grayTextColor
         lb.textAlignment = .center
         lb.numberOfLines = 0
         return lb
@@ -52,7 +52,7 @@ class NoDataView: UIView {
     
     //MARK: - func 
     private func setView() {
-        backgroundColor = UIColor(red: 247/255, green: 247/255, blue: 247/255, alpha: 1)
+        backgroundColor = UIColor.backgroundColor
         
         addSubview(vStackView)
         vStackView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true

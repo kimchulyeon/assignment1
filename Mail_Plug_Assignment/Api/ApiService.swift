@@ -84,14 +84,6 @@ class ApiService {
 
     /// 검색된 게시글 가져오기
     func getSearchedPosts(boardID: Int, search: String? = "", searchTarget: SearchType, offset: Int = 0, limit: Int = 30, completion: @escaping ((Posts?) -> Void)) {
-        
-        print("게시판 ID : \(boardID)")
-        print("검색어 : \(search ?? "")")
-        print("검색 타입 : \(searchTarget)")
-        print("OFFSET : \(offset)")
-        print("LIMIT : \(limit)")
-        print("===================================\n")
-        
         let urlRequest = URLRequest(router: ApiRouter.search(boardID: boardID, searchValue: search, searchTarget: searchTarget.rawValue, offset: offset, limit: limit))
         session?.dataTask(with: urlRequest, completionHandler: { [weak self] data, response, error in
             guard let weakSelf = self else { return }

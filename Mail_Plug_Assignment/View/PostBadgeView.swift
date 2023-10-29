@@ -49,10 +49,10 @@ class PostBadgeView: UIView {
         switch type {
         case .notice:
             titleLabel.text = "공지"
-            backgroundColor = UIColor(red: 255 / 255, green: 199 / 255, blue: 68 / 255, alpha: 1)
+            backgroundColor = UIColor.noticeBackground
         case .reply:
             titleLabel.text = "Re"
-            backgroundColor = UIColor(red: 71 / 255, green: 57 / 255, blue: 43 / 255, alpha: 1)
+            backgroundColor = UIColor.replyBackground
         default:
             break
         }
