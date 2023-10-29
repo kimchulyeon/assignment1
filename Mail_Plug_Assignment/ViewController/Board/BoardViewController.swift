@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  BoardViewController.swift
 //  Mail_Plug_Assignment
 //
 //  Created by chulyeon kim on 10/23/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class BoardViewController: UIViewController {
     //MARK: - properties
     private let viewModel: BoardViewModel?
     private lazy var customNav: CustomNavView = {
@@ -42,21 +42,16 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         setView()
-
-        viewModel?.postsDidSet = { [weak self] posts in
-            DispatchQueue.main.async {
-                self?.boardTableView.reloadData()
-            }
-        }
+        bindViewModel()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         navigationController?.isNavigationBarHidden = true
     }
-    
+
     //MARK: - func
-    func setView() {
+    private func setView() {
         view.addSubview(customNav)
         customNav.translatesAutoresizingMaskIntoConstraints = false
         customNav.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -70,11 +65,19 @@ class HomeViewController: UIViewController {
         boardTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         boardTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
-    
+
+    private func bindViewModel() {
+        viewModel?.postsDidSet = { [weak self] posts in
+            DispatchQueue.main.async {
+                self?.boardTableView.reloadData()
+            }
+        }
+    }
+
     private func setNoDataView() {
         noDataView = NoDataView(imageName: "noPost", text: "등록된 게시글이 없습니다.")
         guard let noDataView = noDataView else { return }
-        
+
         view.addSubview(noDataView)
         noDataView.translatesAutoresizingMaskIntoConstraints = false
         noDataView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -85,7 +88,7 @@ class HomeViewController: UIViewController {
 }
 
 //MARK: - UITableViewDelegate
-extension HomeViewController: UITableViewDelegate {
+extension BoardViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let postCount = viewModel?.posts?.count else { return }
         if indexPath.row == postCount - 1 {
@@ -98,7 +101,7 @@ extension HomeViewController: UITableViewDelegate {
 }
 
 //MARK: - UITableViewDataSource
-extension HomeViewController: UITableViewDataSource {
+extension BoardViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if viewModel?.posts?.count == 0 {
             setNoDataView()
@@ -122,12 +125,12 @@ extension HomeViewController: UITableViewDataSource {
 }
 
 //MARK: - CustomNavViewDelegate
-extension HomeViewController: CustomNavViewDelegate {
+extension BoardViewController: CustomNavViewDelegate {
     func tapBurgerButton() {
         let menuVC = MenuViewController(viewModel: self.viewModel)
         present(menuVC, animated: true)
     }
-    
+
     func tapSearchButton() {
         let searchVC = SearchViewController()
         navigationController?.pushViewController(searchVC, animated: true)

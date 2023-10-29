@@ -55,7 +55,7 @@ class CoreDataManager {
         return searchHistories
     }
 
-    func deleteSearchedHistory(searchText: String, searchType: String) {
+    private func deleteSearchedHistory(searchText: String, searchType: String) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "SearchHistory")
         fetchRequest.predicate = NSPredicate(format: "searchText == %@ AND searchType == %@", searchText, searchType)
 

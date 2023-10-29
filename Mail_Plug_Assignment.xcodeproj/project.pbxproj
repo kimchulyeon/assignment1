@@ -24,7 +24,7 @@
 		6EFA84EA2AE6368700180F83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA84E92AE6368700180F83 /* AppDelegate.swift */; };
 		6EFA84EC2AE6368700180F83 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA84EB2AE6368700180F83 /* SceneDelegate.swift */; };
 		6EFA84F32AE6368800180F83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EFA84F22AE6368800180F83 /* Assets.xcassets */; };
-		6EFA85022AE636E800180F83 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA85012AE636E800180F83 /* HomeViewController.swift */; };
+		6EFA85022AE636E800180F83 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA85012AE636E800180F83 /* BoardViewController.swift */; };
 		6EFA85082AE63B3400180F83 /* CustomNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA85072AE63B3400180F83 /* CustomNavView.swift */; };
 		6EFA850F2AE641AA00180F83 /* SpoqaHanSansNeo-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6EFA850A2AE641A900180F83 /* SpoqaHanSansNeo-Bold.otf */; };
 		6EFA85102AE641AA00180F83 /* SpoqaHanSansNeo-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6EFA850B2AE641A900180F83 /* SpoqaHanSansNeo-Regular.otf */; };
@@ -38,7 +38,6 @@
 		6EFA85202AE652E000180F83 /* URLRequest+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA851F2AE652E000180F83 /* URLRequest+Ext.swift */; };
 		6EFA85222AE6531800180F83 /* URLSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA85212AE6531800180F83 /* URLSessionManager.swift */; };
 		6EFA85242AE655A700180F83 /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA85232AE655A700180F83 /* BoardViewModel.swift */; };
-		6EFA85262AE655C000180F83 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA85252AE655C000180F83 /* ViewModelType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,7 +60,7 @@
 		6EFA84EB2AE6368700180F83 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6EFA84F22AE6368800180F83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6EFA84F72AE6368800180F83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6EFA85012AE636E800180F83 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		6EFA85012AE636E800180F83 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		6EFA85072AE63B3400180F83 /* CustomNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavView.swift; sourceTree = "<group>"; };
 		6EFA850A2AE641A900180F83 /* SpoqaHanSansNeo-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpoqaHanSansNeo-Bold.otf"; sourceTree = "<group>"; };
 		6EFA850B2AE641A900180F83 /* SpoqaHanSansNeo-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpoqaHanSansNeo-Regular.otf"; sourceTree = "<group>"; };
@@ -75,7 +74,6 @@
 		6EFA851F2AE652E000180F83 /* URLRequest+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Ext.swift"; sourceTree = "<group>"; };
 		6EFA85212AE6531800180F83 /* URLSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionManager.swift; sourceTree = "<group>"; };
 		6EFA85232AE655A700180F83 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
-		6EFA85252AE655C000180F83 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,12 +112,12 @@
 			path = Test;
 			sourceTree = "<group>";
 		};
-		6EDBE1CE2AE9EFDF009CB246 /* Home */ = {
+		6EDBE1CE2AE9EFDF009CB246 /* Board */ = {
 			isa = PBXGroup;
 			children = (
-				6EFA85012AE636E800180F83 /* HomeViewController.swift */,
+				6EFA85012AE636E800180F83 /* BoardViewController.swift */,
 			);
-			path = Home;
+			path = Board;
 			sourceTree = "<group>";
 		};
 		6EDBE1CF2AE9EFE8009CB246 /* Menu */ = {
@@ -184,7 +182,7 @@
 			children = (
 				6EDBE1DA2AEA4C90009CB246 /* Search */,
 				6EDBE1CF2AE9EFE8009CB246 /* Menu */,
-				6EDBE1CE2AE9EFDF009CB246 /* Home */,
+				6EDBE1CE2AE9EFDF009CB246 /* Board */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -223,18 +221,9 @@
 				374A6B542AED869600623BA4 /* Manager */,
 				6EFA851C2AE64F3600180F83 /* Constant */,
 				6EFA85092AE6419800180F83 /* Font */,
-				6EFA85052AE639BF00180F83 /* Protocol */,
 				374A6B612AEE8B7C00623BA4 /* UIColor+Ext.swift */,
 			);
 			path = Util;
-			sourceTree = "<group>";
-		};
-		6EFA85052AE639BF00180F83 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				6EFA85252AE655C000180F83 /* ViewModelType.swift */,
-			);
-			path = Protocol;
 			sourceTree = "<group>";
 		};
 		6EFA85062AE63B1300180F83 /* View */ = {
@@ -377,9 +366,8 @@
 				6EFA85082AE63B3400180F83 /* CustomNavView.swift in Sources */,
 				6EFA84EC2AE6368700180F83 /* SceneDelegate.swift in Sources */,
 				6EDBE1DC2AEA4C99009CB246 /* SearchViewController.swift in Sources */,
-				6EFA85022AE636E800180F83 /* HomeViewController.swift in Sources */,
+				6EFA85022AE636E800180F83 /* BoardViewController.swift in Sources */,
 				374A6B562AED86A300623BA4 /* UserDefaultsManager.swift in Sources */,
-				6EFA85262AE655C000180F83 /* ViewModelType.swift in Sources */,
 				374A6B532AED069300623BA4 /* Search.swift in Sources */,
 				6EDBE1D92AEA457A009CB246 /* NoDataView.swift in Sources */,
 				6EFA85202AE652E000180F83 /* URLRequest+Ext.swift in Sources */,

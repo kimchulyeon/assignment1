@@ -16,7 +16,6 @@ class ApiService {
 
     /// 게시판 리스트 가져오기
     func getBoards(completion: @escaping ((Boards?) -> Void)) {
-        print("GETBOARDS")
         let urlRequest = URLRequest(router: ApiRouter.board)
         session?.dataTask(with: urlRequest, completionHandler: { [weak self] data, response, error in
             guard let weakSelf = self else { return }
@@ -50,7 +49,6 @@ class ApiService {
 
     /// 게시판 게시글 가져오기
     func getPosts(boardID: Int, offset: Int = 0, limit: Int = 30, completion: @escaping ((Posts?) -> Void)) {
-        print("GETPOSTS")
         let urlRequest = URLRequest(router: ApiRouter.post(boardID: boardID, offset: offset, limit: limit))
         session?.dataTask(with: urlRequest, completionHandler: { [weak self] data, response, error in
             guard let weakSelf = self else { return }

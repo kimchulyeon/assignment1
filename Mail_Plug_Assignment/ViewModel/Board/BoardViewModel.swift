@@ -11,7 +11,6 @@ class BoardViewModel {
     //MARK: - properties
     var boardID: Int? {
         didSet {
-//            guard let id = boardID else { return }
             guard let id = boardID, let board = boards?.first(where: { $0.boardId == id }) else { return }
             UserDefaultsManager.shared.saveStringData(data: id.description, key: .boardID)
             totalPostsCount = 0

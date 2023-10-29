@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         boardListViewModel = BoardViewModel()
         boardListViewModel?.fetchBoards()
         
-        let homeVC = HomeViewController(viewModel: boardListViewModel!)
+        let homeVC = BoardViewController(viewModel: boardListViewModel!)
         let navVC = UINavigationController(rootViewController: homeVC)
         
         guard let scene = scene as? UIWindowScene else { return }
