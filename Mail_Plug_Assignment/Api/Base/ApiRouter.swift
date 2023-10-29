@@ -7,17 +7,10 @@
 
 import Foundation
 
-enum SearchTarget: String {
-    case all = "all"
-    case title = "title"
-    case contents = "contents"
-    case writer = "writer"
-}
-
 enum ApiRouter {
     case board
     case post(boardID: Int, offset: Int, limit: Int = 30)
-    case search(boardID: Int, searchValue: String, searchTarget: SearchTarget = .all, offset: Int, limit: Int = 30)
+    case search(boardID: Int, searchValue: String?, searchTarget: SearchType.RawValue, offset: Int, limit: Int = 30)
 
     /// 도메인
     var baseURL: String {
@@ -55,7 +48,7 @@ enum ApiRouter {
         case .post(boardID: _, offset: let offset, limit: let limit):
             return ["offset": offset, "limit": limit]
         case .search(boardID: _, searchValue: let searchValue, searchTarget: let searchTarget, offset: let offset, limit: let limit):
-            return ["search": searchValue, "searchTarget": searchTarget, "offset": offset, "limit": limit]
+            return ["search": searchValue ?? "", "searchTarget": searchTarget, "offset": offset, "limit": limit]
         }
     }
     

@@ -16,6 +16,7 @@ class ApiService {
 
     /// 게시판 리스트 가져오기
     func getBoards(completion: @escaping ((Boards?) -> Void)) {
+        print("GETBOARDS")
         let urlRequest = URLRequest(router: ApiRouter.board)
         session?.dataTask(with: urlRequest, completionHandler: { [weak self] data, response, error in
             guard let weakSelf = self else { return }
@@ -49,6 +50,7 @@ class ApiService {
 
     /// 게시판 게시글 가져오기
     func getPosts(boardID: Int, offset: Int = 0, limit: Int = 30, completion: @escaping ((Posts?) -> Void)) {
+        print("GETPOSTS")
         let urlRequest = URLRequest(router: ApiRouter.post(boardID: boardID, offset: offset, limit: limit))
         session?.dataTask(with: urlRequest, completionHandler: { [weak self] data, response, error in
             guard let weakSelf = self else { return }
@@ -77,6 +79,47 @@ class ApiService {
                 completion(nil)
             }
         })
-        .resume()
+            .resume()
+    }
+
+    /// 검색된 게시글 가져오기
+    func getSearchedPosts(boardID: Int, search: String? = "", searchTarget: SearchType, offset: Int = 0, limit: Int = 30, completion: @escaping ((Posts?) -> Void)) {
+        
+        print("게시판 ID : \(boardID)")
+        print("검색어 : \(search ?? "")")
+        print("검색 타입 : \(searchTarget)")
+        print("OFFSET : \(offset)")
+        print("LIMIT : \(limit)")
+        print("===================================\n")
+        
+        let urlRequest = URLRequest(router: ApiRouter.search(boardID: boardID, searchValue: search, searchTarget: searchTarget.rawValue, offset: offset, limit: limit))
+        session?.dataTask(with: urlRequest, completionHandler: { [weak self] data, response, error in
+            guard let weakSelf = self else { return }
+
+            if let error = error {
+                print("❌ Error while getting searched posts with \(error)")
+                return completion(nil)
+            }
+
+            guard let response = response as? HTTPURLResponse,
+                (200..<300).contains(response.statusCode) else {
+                print("❌ Error while getting searched posts with invalid response")
+                return completion(nil)
+            }
+
+            guard let data = data else {
+                print("❌ Error while getting searched posts with invalid data")
+                return completion(nil)
+            }
+
+            do {
+                let searchedData = try weakSelf.decoder.decode(Posts.self, from: data)
+                completion(searchedData)
+            } catch {
+                print("❌Error while getting searched posts with \(error)")
+                completion(nil)
+            }
+        })
+            .resume()
     }
 }

@@ -14,7 +14,6 @@ protocol CustomSearchBarViewDelegate: NSObject {
 class CustomSearchBarView: UIView {
     //MARK: - properties
     weak var delegate: CustomSearchBarViewDelegate?
-    private let viewModel: BoardViewModel?
 
     private let containerHStackView: UIStackView = {
         let sv = UIStackView()
@@ -33,11 +32,11 @@ class CustomSearchBarView: UIView {
         return v
     }()
     private lazy var textFieldHStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [textFieldLeftImage, searchTextField])
+        let sv = UIStackView(arrangedSubviews: [textFieldLeftImage, searchTypeLabel, searchTextField])
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.spacing = 4
         sv.axis = .horizontal
-        sv.distribution = .fill
+        sv.distribution = .fillProportionally
         sv.alignment = .center
         return sv
     }()
@@ -50,6 +49,15 @@ class CustomSearchBarView: UIView {
         iv.widthAnchor.constraint(equalToConstant: 20).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 20).isActive = true
         return iv
+    }()
+    let searchTypeLabel: UILabel = {
+        let lb = UILabel()
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        lb.textAlignment = .center
+        lb.font = UIFont(name: "SpoqaHanSansNeo-Regular", size: 14)
+        lb.textColor = UIColor(red: 117 / 255, green: 117 / 255, blue: 117 / 255, alpha: 1)
+//        lb.widthAnchor.constraint(equalToConstant: lb.intrinsicContentSize.width).isActive = true
+        return lb
     }()
     lazy var searchTextField: UITextField = {
         let tf = UITextField()
@@ -68,12 +76,11 @@ class CustomSearchBarView: UIView {
 
     //MARK: - lifecycle
     // Initializer
-    init(viewModel: BoardViewModel?) {
-        self.viewModel = viewModel
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
-        super.init(frame: .zero)
-        
-        searchTextField.placeholder = "\(viewModel?.displayName ?? "")에서 검색"
+        let displayName = UserDefaultsManager.shared.getStringData(key: .boardDisplayName)
+        searchTextField.placeholder = "\(displayName ?? "")에서 검색"
 
         addSubview(containerHStackView)
         containerHStackView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true

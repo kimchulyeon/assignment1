@@ -131,7 +131,7 @@ extension HomeViewController: CustomNavViewDelegate {
     }
     
     func tapSearchButton() {
-        let searchVC = SearchViewController(viewModel: self.viewModel)
+        let searchVC = SearchViewController()
         navigationController?.pushViewController(searchVC, animated: true)
     }
 }

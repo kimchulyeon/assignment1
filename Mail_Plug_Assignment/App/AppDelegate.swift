@@ -6,14 +6,22 @@
 //
 
 import UIKit
+import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    static var persistentContainer: NSPersistentContainer!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        AppDelegate.persistentContainer = NSPersistentContainer(name: "SearchHistory")
+        AppDelegate.persistentContainer.loadPersistentStores { (description, error) in
+            if let error = error {
+                fatalError("Failed loading persistent stores: \(error)")
+            }
+        }
+
         return true
     }
 
