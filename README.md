@@ -233,6 +233,7 @@ enum ApiRouter {
 let urlRequest = URLRequest(router: ApiRouter.board)
 session?.dataTask(with: urlRequest, completionHandler: { [weak self] data, response, error in ... }).resume()
 ```
+</details>
 
 ## UserDefaultsManager
 
@@ -277,8 +278,4 @@ var boardID: Int? {
     }
 }
 ```
-</details>
-
-
-
 </details>
