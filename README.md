@@ -6,7 +6,6 @@
 ![image](https://github.com/kimchulyeon/assignment1/assets/86825214/121d9965-2d09-43af-908c-b4e1a54c8335)
 
 ## DB - CoreData
----
 
 사용자의 검색 이력을 CoreData를 사용하여 SAVE / READ / DELETE 하였습니다.
 
@@ -112,7 +111,7 @@ func deleteSearchedHistory(at index: Int) {
 </details>
 
 ## API - URLSession + Custom URLRequest + Router
----
+
 
 URLRequest를 생성할 때 Router(ApiRouter)를 주입해서 URLRequest의 url / httpMethod / headers / queryStrings 을 세팅
 
@@ -234,4 +233,52 @@ enum ApiRouter {
 let urlRequest = URLRequest(router: ApiRouter.board)
 session?.dataTask(with: urlRequest, completionHandler: { [weak self] data, response, error in ... }).resume()
 ```
+
+## UserDefaultsManager
+
+<details>
+<summary>코드</summary>
+
+### 게시판 ID와 게시판 displayName UserDefaults로 관리
+
+```
+import Foundation
+
+enum UserDefaultsKeys: String {
+    case boardDisplayName
+    case boardID
+}
+
+class UserDefaultsManager {
+    static let shared = UserDefaultsManager()
+    private init() { }
+    
+    func saveStringData(data: String?, key: UserDefaultsKeys) {
+        UserDefaults.standard.set(data, forKey: key.rawValue)
+    }
+    
+    func getStringData(key: UserDefaultsKeys) -> String? {
+        return UserDefaults.standard.string(forKey: key.rawValue)
+    }
+}
+
+```
+
+### 사용 예시
+
+BoardViewModel에서 boardID 프로퍼티가 업데이트될 때마다 저장
+
+```
+var boardID: Int? {
+    didSet {
+        guard let id = boardID else { return }
+        UserDefaultsManager.shared.saveStringData(data: id.description, key: .boardID)
+        // 나머지 코드
+    }
+}
+```
+</details>
+
+
+
 </details>
